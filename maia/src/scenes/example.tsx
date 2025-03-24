@@ -31,6 +31,9 @@ export default makeScene2D(function* (view) {
           fill="#ecf0f1"
           fontFamily="Arial"
           fontSize={40}
+          width={500}
+          textWrap={true}
+          textAlign="center"
           y={-150}
         />
       </Rect>
@@ -48,10 +51,12 @@ export default makeScene2D(function* (view) {
       >
         <Txt
           ref={promptText}
-          text="System prompt:\nplanning and iteration\n(ReAct)"
+          text="System prompt: planning and iteration (ReAct)"
           fill="#ecf0f1"
           fontFamily="Arial"
           fontSize={28}
+          width={350}
+          textWrap={true}
           textAlign="center"
         />
       </Rect>
