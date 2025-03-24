@@ -1,2 +1,15 @@
 # motion-canvas-diagrams
-A selection of random animations I created in motion canvas for my newsletter and other resources
+
+To install dependencies:
+
+```bash
+bun install
+```
+
+To run:
+
+```bash
+bun run index.ts
+```
+
+This project was created using `bun init` in bun v1.1.34. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.

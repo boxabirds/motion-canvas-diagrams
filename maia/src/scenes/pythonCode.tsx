@@ -18,6 +18,15 @@ export default makeScene2D(function* (view) {
   const smallBoxWidth = largeBoxWidth * 0.25;
   const smallBoxHeight = largeBoxHeight * 0.25;
 
+  // Calculate proportional sizes for the code block
+  const paddingRatio = 40 / largeBoxWidth; // Calculate padding as a ratio of box width
+  const largePadding = largeBoxWidth * paddingRatio;
+  const smallPadding = smallBoxWidth * paddingRatio;
+  
+  const fontSizeRatio = 32 / largeBoxHeight; // Calculate font size as a ratio of box height
+  const largeFontSize = largeBoxHeight * fontSizeRatio;
+  const smallFontSize = smallBoxHeight * fontSizeRatio;
+
   // Python code sample
   const pythonCode = `def fibonacci(n):
     """
@@ -56,11 +65,11 @@ class DataProcessor:
         <Code
           ref={codeBlock}
           code={pythonCode}
-          fontSize={32}
+          fontSize={largeFontSize}
           fontFamily="JetBrains Mono, monospace"
-          padding={40}
-          width={largeBoxWidth - 80}
-          height={largeBoxHeight - 80}
+          padding={largePadding}
+          width={largeBoxWidth - (2 * largePadding)}
+          height={largeBoxHeight - (2 * largePadding)}
         />
       </Rect>
     </>,
@@ -74,11 +83,11 @@ class DataProcessor:
     // Shrink the box
     box().size([smallBoxWidth, smallBoxHeight], 2, easeInOutCubic),
     
-    // Scale down the code font size
-    codeBlock().fontSize(14, 2, easeInOutCubic),
-    codeBlock().padding(10, 2, easeInOutCubic),
-    codeBlock().width(smallBoxWidth - 20, 2, easeInOutCubic),
-    codeBlock().height(smallBoxHeight - 20, 2, easeInOutCubic)
+    // Scale down the code at exactly the same rate
+    codeBlock().fontSize(smallFontSize, 2, easeInOutCubic),
+    codeBlock().padding(smallPadding, 2, easeInOutCubic),
+    codeBlock().width(smallBoxWidth - (2 * smallPadding), 2, easeInOutCubic),
+    codeBlock().height(smallBoxHeight - (2 * smallPadding), 2, easeInOutCubic)
   );
   
   yield* waitFor(1);
