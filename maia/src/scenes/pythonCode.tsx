@@ -1,4 +1,4 @@
-import {makeScene2D, Rect, Code} from '@motion-canvas/2d';
+import {makeScene2D, Rect, Code, Txt} from '@motion-canvas/2d';
 import {createRef, waitFor, all, easeInOutCubic} from '@motion-canvas/core';
 
 export default makeScene2D(function* (view) {
@@ -8,6 +8,7 @@ export default makeScene2D(function* (view) {
   // Create references for our elements
   const box = createRef<Rect>();
   const codeBlock = createRef<Code>();
+  const label = createRef<Txt>();
   
   // Calculate sizes based on screen dimensions
   const screenWidth = 1920; // Standard HD width
@@ -71,6 +72,15 @@ class DataProcessor:
           width={largeBoxWidth - (2 * largePadding)}
           height={largeBoxHeight - (2 * largePadding)}
         />
+        <Txt
+          ref={label}
+          text={'Fibonacci'}
+          fontSize={smallBoxHeight * 0.2}
+          fontFamily="Arial, sans-serif"
+          fontWeight={700}
+          fill="#FFFFFF"
+          opacity={0}
+        />
       </Rect>
     </>,
   );
@@ -83,11 +93,15 @@ class DataProcessor:
     // Shrink the box
     box().size([smallBoxWidth, smallBoxHeight], 2, easeInOutCubic),
     
-    // Scale down the code at exactly the same rate
+    // Scale down the code and fade it out
     codeBlock().fontSize(smallFontSize, 2, easeInOutCubic),
     codeBlock().padding(smallPadding, 2, easeInOutCubic),
     codeBlock().width(smallBoxWidth - (2 * smallPadding), 2, easeInOutCubic),
-    codeBlock().height(smallBoxHeight - (2 * smallPadding), 2, easeInOutCubic)
+    codeBlock().height(smallBoxHeight - (2 * smallPadding), 2, easeInOutCubic),
+    codeBlock().opacity(0, 1.5, easeInOutCubic),
+    
+    // Fade in the label
+    label().opacity(1, 1.5, easeInOutCubic)
   );
   
   yield* waitFor(1);
