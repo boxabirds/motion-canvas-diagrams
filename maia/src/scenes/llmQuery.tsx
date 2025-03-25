@@ -26,6 +26,9 @@ export default makeScene2D(function* (view) {
   // Set the background colour for this scene - dark gradient
   view.fill('#0a0a1a');
 
+  // Create a root container to center everything
+  const rootContainer = createRef<Rect>();
+
   // Create references for our elements
   const queryBox = createRef<Rect>();
   const queryText = createRef<Txt>();
@@ -106,366 +109,384 @@ export default makeScene2D(function* (view) {
   // Set up the scene with initial visibility
   view.add(
     <>
-      {/* Input Package box (initially hidden) - MOVED TO FIRST POSITION so it renders behind other elements */}
+      {/* Root container to center everything */}
       <Rect
-        ref={inputPackageBox}
+        ref={rootContainer}
         width={1000}
-        height={200}
-        radius={15}
-        fill="#1a1a2a"
-        stroke="#4a4a6a"
-        lineWidth={3}
-        y={0}
-        opacity={0}
-        shadowColor="#3333aa"
-        shadowBlur={25}
-        shadowOffset={new Vector2(0, 8)}
-        zIndex={-1} // Ensure it stays behind other elements
-      >
-        <Txt
-          ref={inputPackageLabel}
-          text="Input Package"
-          fill="#ffffff"
-          fontFamily="Arial"
-          fontSize={24}
-          fontWeight={600}
-          y={-70}
-        />
-      </Rect>
-      
-      {/* User query text box */}
-      <Rect
-        ref={queryBox}
-        width={500}
-        height={100}
-        radius={8}
-        fill="#1e1e3a"
-        stroke="#3a3a7a"
-        lineWidth={3}
-        y={0}
-        shadowColor="#0000aa"
-        shadowBlur={20}
-        shadowOffset={new Vector2(0, 5)}
-      >
-        <Txt
-          ref={queryText}
-          text=""
-          fill="#e0e0ff"
-          fontFamily="monospace"
-          fontSize={32}
-          fontWeight={600}
-          width={450}
-          textWrap={true}
-          textAlign="center"
-        />
-      </Rect>
-
-      {/* JSON representation (initially hidden) */}
-      <Rect
-        ref={jsonBox}
-        width={600}
-        height={200}
-        radius={12}
-        fill="#1a1a2a"
-        stroke="#4a4a8a"
-        lineWidth={3}
-        y={0}
-        opacity={0}
-      >
-        <Txt
-          ref={jsonText}
-          text={jsonContent}
-          fill="#a0e0ff"
-          fontFamily="monospace"
-          fontSize={24}
-          width={550}
-          textWrap={true}
-          textAlign="left"
-        />
-      </Rect>
-
-      {/* User Message box (initially hidden) */}
-      <Rect
-        ref={userMessageBox}
-        width={300}
-        height={80}
-        radius={8}
-        fill="#2a2a4a"
-        stroke="#5a5a9a"
-        lineWidth={2}
-        y={0}
-        opacity={0}
-        zIndex={1} // Ensure it stays above the input package
-      >
-        <Txt
-          ref={userMessageLabel}
-          text="User Message"
-          fill="#ffffff"
-          fontFamily="Arial"
-          fontSize={18}
-          fontWeight={600}
-          y={-25}
-        />
-        <Txt
-          ref={userMessageText}
-          text="Capital of France?"
-          fill="#e0e0ff"
-          fontFamily="monospace"
-          fontSize={16}
-          y={10}
-        />
-      </Rect>
-      
-      {/* Chat History box (initially hidden) */}
-      <Rect
-        ref={chatHistoryBox}
-        width={300}
-        height={80}
-        radius={8}
-        fill="#1a3a3a"  // Teal color to distinguish from User Message
-        stroke="#2a7a7a"
-        lineWidth={2}
-        x={-800}  // Start off-screen to the left
-        y={0}
-        opacity={0}
-        shadowColor="#00aaaa"
-        shadowBlur={10}
-        shadowOffset={new Vector2(-2, 3)}
-        zIndex={1} // Ensure it stays above the input package
-      >
-        <Txt
-          ref={chatHistoryLabel}
-          text="Chat History"
-          fill="#ffffff"
-          fontFamily="Arial"
-          fontSize={18}
-          fontWeight={600}
-          y={-25}
-        />
-        <Txt
-          ref={chatHistoryText}
-          text="Previous messages"
-          fill="#e0ffff"
-          fontFamily="monospace"
-          fontSize={16}
-          y={10}
-        />
-      </Rect>
-      
-      {/* Chat History JSON representation (initially hidden) */}
-      <Rect
-        ref={chatHistoryJsonBox}
-        width={500}
-        height={180}
-        radius={12}
-        fill="#1a2a2a"
-        stroke="#3a7a7a"
-        lineWidth={3}
-        x={-400}
-        y={0}
-        opacity={0}
-      >
-        <Txt
-          ref={chatHistoryJsonText}
-          text={chatHistoryJson}
-          fill="#a0ffff"
-          fontFamily="monospace"
-          fontSize={24}
-          width={450}
-          textWrap={true}
-          textAlign="left"
-        />
-      </Rect>
-      
-      {/* System Prompt box (initially hidden) */}
-      <Rect
-        ref={systemPromptBox}
-        width={300}
-        height={80}
-        radius={8}
-        fill="#3a1a3a"  // Purple color for system prompt
-        stroke="#7a2a7a"
-        lineWidth={2}
+        height={600}
+        radius={0}
+        fill={"#0a0a1a"}
+        stroke={"#0a0a1a"}
+        lineWidth={0}
         x={0}
-        y={-500}  // Start off-screen at the top
-        opacity={0}
-        shadowColor="#aa00aa"
-        shadowBlur={15}
-        shadowOffset={new Vector2(0, 4)}
-        zIndex={1} // Ensure it stays above the input package
+        y={0}
+        opacity={1}
+        shadowColor={"#0a0a1a"}
+        shadowBlur={0}
+        shadowOffset={new Vector2(0, 0)}
+        zIndex={0} // Ensure it stays behind other elements
       >
-        <Circle
-          ref={systemPromptGlow}
-          width={320}
+        {/* Input Package box (initially hidden) - MOVED TO FIRST POSITION so it renders behind other elements */}
+        <Rect
+          ref={inputPackageBox}
+          width={1000}
+          height={200}
+          radius={15}
+          fill="#1a1a2a"
+          stroke="#4a4a6a"
+          lineWidth={3}
+          y={0}
+          opacity={0}
+          shadowColor="#3333aa"
+          shadowBlur={25}
+          shadowOffset={new Vector2(0, 8)}
+          zIndex={-1} // Ensure it stays behind other elements
+        >
+          <Txt
+            ref={inputPackageLabel}
+            text="Input Package"
+            fill="#ffffff"
+            fontFamily="Arial"
+            fontSize={24}
+            fontWeight={600}
+            y={-70}
+          />
+        </Rect>
+        
+        {/* User query text box */}
+        <Rect
+          ref={queryBox}
+          width={500}
           height={100}
-          fill="rgba(170, 0, 170, 0.1)"
-          opacity={0.5}
-        />
-        <Txt
-          ref={systemPromptLabel}
-          text="System Prompt"
-          fill="#ffffff"
-          fontFamily="Arial"
-          fontSize={18}
-          fontWeight={600}
-          y={-25}
-        />
-        <Txt
-          ref={systemPromptText}
-          text="Instructions for model"
-          fill="#ffe0ff"
-          fontFamily="monospace"
-          fontSize={16}
-          y={10}
-        />
-      </Rect>
-      
-      {/* System Prompt JSON representation (initially hidden) */}
-      <Rect
-        ref={systemPromptJsonBox}
-        width={500}
-        height={180}
-        radius={12}
-        fill="#2a1a2a"
-        stroke="#7a3a7a"
-        lineWidth={3}
-        x={0}
-        y={-300}
-        opacity={0}
-      >
-        <Txt
-          ref={systemPromptJsonText}
-          text={systemPromptJson}
-          fill="#ffa0ff"
-          fontFamily="monospace"
-          fontSize={24}
-          width={450}
-          textWrap={true}
-          textAlign="left"
-        />
-      </Rect>
-      
-      {/* Combined string box (initially hidden) - for Scene 4 */}
-      <Rect
-        ref={combinedStringBox}
-        width={800}
-        height={100}
-        radius={10}
-        fill="#1a1a2a"
-        stroke="#5a5a8a"
-        lineWidth={3}
-        y={0}
-        opacity={0}
-        shadowColor="#4444bb"
-        shadowBlur={20}
-        shadowOffset={new Vector2(0, 5)}
-      >
-        <Txt
-          ref={combinedStringText}
-          text={combinedString}
-          fill="#ffffff"
-          fontFamily="monospace"
-          fontSize={28}
-          fontWeight={600}
-          width={750}
-          textWrap={true}
-          textAlign="center"
-        />
-      </Rect>
-      
-      {/* Container for token bubbles */}
-      <Node ref={tokenContainer} opacity={0}>
-        {tokens.map((token, index) => (
-          <Rect
-            ref={tokenRefs[index]}
-            width={token.text.length * 20 + 40}
-            height={80}
-            radius={40}
-            fill={token.color}
-            stroke={"rgba(255, 255, 255, 0.6)"}
-            lineWidth={2}
-            x={-400 + index * 150} // Initial positions, will be animated
-            y={0}
-            shadowColor={token.color}
-            shadowBlur={15}
-            shadowOffset={new Vector2(0, 3)}
-          >
-            <Txt
-              ref={tokenTextRefs[index]}
-              text={token.text}
-              fill={"#ffffff"}
-              fontFamily="monospace"
-              fontSize={22}
-              fontWeight={600}
-              y={-15}
-            />
-            <Txt
-              ref={tokenIdRefs[index]}
-              text={`ID: ${token.id}`}
-              fill={"rgba(255, 255, 255, 0.8)"}
-              fontFamily="monospace"
-              fontSize={16}
-              y={15}
-              opacity={0} // IDs will fade in during animation
-            />
-          </Rect>
-        ))}
-      </Node>
-      
-      {/* Zoomed token for detailed view (initially hidden) */}
-      <Rect
-        ref={zoomedTokenBox}
-        width={300}
-        height={150}
-        radius={20}
-        fill={"#ffd700"} // Will be updated during animation
-        stroke={"rgba(255, 255, 255, 0.8)"}
-        lineWidth={3}
-        y={0}
-        opacity={0}
-        shadowColor={"#ffd700"}
-        shadowBlur={25}
-        shadowOffset={new Vector2(0, 5)}
-      >
-        <Txt
-          ref={zoomedTokenText}
-          text={"France"}
-          fill={"#ffffff"}
-          fontFamily="monospace"
-          fontSize={36}
-          fontWeight={600}
-          y={-30}
-        />
-        <Txt
-          ref={zoomedTokenId}
-          text={"Token ID: 3782"}
-          fill={"#ffffff"}
-          fontFamily="monospace"
-          fontSize={24}
-          y={30}
-        />
-      </Rect>
-      
-      {/* Token ID sequence box (initially hidden) */}
-      <Rect
-        ref={tokenIdSequence}
-        width={700}
-        height={100}
-        radius={15}
-        fill={"#1a1a2a"}
-        stroke={"#5a5a8a"}
-        lineWidth={2}
-        y={200}
-        opacity={0}
-      >
-        <Txt
-          ref={tokenIdSequenceText}
-          text={"[512, 789, 25, 2451, 32, 3782, 28]"}
-          fill={"#ffffff"}
-          fontFamily="monospace"
-          fontSize={32}
-          fontWeight={600}
-        />
+          radius={8}
+          fill="#1e1e3a"
+          stroke="#3a3a7a"
+          lineWidth={3}
+          y={0}
+          shadowColor="#0000aa"
+          shadowBlur={20}
+          shadowOffset={new Vector2(0, 5)}
+        >
+          <Txt
+            ref={queryText}
+            text=""
+            fill="#e0e0ff"
+            fontFamily="monospace"
+            fontSize={32}
+            fontWeight={600}
+            width={450}
+            textWrap={true}
+            textAlign="center"
+          />
+        </Rect>
+
+        {/* JSON representation (initially hidden) */}
+        <Rect
+          ref={jsonBox}
+          width={600}
+          height={200}
+          radius={12}
+          fill="#1a1a2a"
+          stroke="#4a4a8a"
+          lineWidth={3}
+          y={0}
+          opacity={0}
+        >
+          <Txt
+            ref={jsonText}
+            text={jsonContent}
+            fill="#a0e0ff"
+            fontFamily="monospace"
+            fontSize={24}
+            width={550}
+            textWrap={true}
+            textAlign="left"
+          />
+        </Rect>
+
+        {/* User Message box (initially hidden) */}
+        <Rect
+          ref={userMessageBox}
+          width={300}
+          height={80}
+          radius={8}
+          fill="#2a2a4a"
+          stroke="#5a5a9a"
+          lineWidth={2}
+          y={0}
+          opacity={0}
+          zIndex={1} // Ensure it stays above the input package
+        >
+          <Txt
+            ref={userMessageLabel}
+            text="User Message"
+            fill="#ffffff"
+            fontFamily="Arial"
+            fontSize={18}
+            fontWeight={600}
+            y={-25}
+          />
+          <Txt
+            ref={userMessageText}
+            text="Capital of France?"
+            fill="#e0e0ff"
+            fontFamily="monospace"
+            fontSize={16}
+            y={10}
+          />
+        </Rect>
+        
+        {/* Chat History box (initially hidden) */}
+        <Rect
+          ref={chatHistoryBox}
+          width={300}
+          height={80}
+          radius={8}
+          fill="#1a3a3a"  // Teal color to distinguish from User Message
+          stroke="#2a7a7a"
+          lineWidth={2}
+          x={-800}  // Start off-screen to the left
+          y={0}
+          opacity={0}
+          shadowColor="#00aaaa"
+          shadowBlur={10}
+          shadowOffset={new Vector2(-2, 3)}
+          zIndex={1} // Ensure it stays above the input package
+        >
+          <Txt
+            ref={chatHistoryLabel}
+            text="Chat History"
+            fill="#ffffff"
+            fontFamily="Arial"
+            fontSize={18}
+            fontWeight={600}
+            y={-25}
+          />
+          <Txt
+            ref={chatHistoryText}
+            text="Previous messages"
+            fill="#e0ffff"
+            fontFamily="monospace"
+            fontSize={16}
+            y={10}
+          />
+        </Rect>
+        
+        {/* Chat History JSON representation (initially hidden) */}
+        <Rect
+          ref={chatHistoryJsonBox}
+          width={500}
+          height={180}
+          radius={12}
+          fill="#1a2a2a"
+          stroke="#3a7a7a"
+          lineWidth={3}
+          x={-400}
+          y={0}
+          opacity={0}
+        >
+          <Txt
+            ref={chatHistoryJsonText}
+            text={chatHistoryJson}
+            fill="#a0ffff"
+            fontFamily="monospace"
+            fontSize={24}
+            width={450}
+            textWrap={true}
+            textAlign="left"
+          />
+        </Rect>
+        
+        {/* System Prompt box (initially hidden) */}
+        <Rect
+          ref={systemPromptBox}
+          width={300}
+          height={80}
+          radius={8}
+          fill="#3a1a3a"  // Purple color for system prompt
+          stroke="#7a2a7a"
+          lineWidth={2}
+          x={0}
+          y={-500}  // Start off-screen at the top
+          opacity={0}
+          shadowColor="#aa00aa"
+          shadowBlur={15}
+          shadowOffset={new Vector2(0, 4)}
+          zIndex={1} // Ensure it stays above the input package
+        >
+          <Circle
+            ref={systemPromptGlow}
+            width={320}
+            height={100}
+            fill="rgba(170, 0, 170, 0.1)"
+            opacity={0.5}
+          />
+          <Txt
+            ref={systemPromptLabel}
+            text="System Prompt"
+            fill="#ffffff"
+            fontFamily="Arial"
+            fontSize={18}
+            fontWeight={600}
+            y={-25}
+          />
+          <Txt
+            ref={systemPromptText}
+            text="Instructions for model"
+            fill="#ffe0ff"
+            fontFamily="monospace"
+            fontSize={16}
+            y={10}
+          />
+        </Rect>
+        
+        {/* System Prompt JSON representation (initially hidden) */}
+        <Rect
+          ref={systemPromptJsonBox}
+          width={500}
+          height={180}
+          radius={12}
+          fill="#2a1a2a"
+          stroke="#7a3a7a"
+          lineWidth={3}
+          x={0}
+          y={-300}
+          opacity={0}
+        >
+          <Txt
+            ref={systemPromptJsonText}
+            text={systemPromptJson}
+            fill="#ffa0ff"
+            fontFamily="monospace"
+            fontSize={24}
+            width={450}
+            textWrap={true}
+            textAlign="left"
+          />
+        </Rect>
+        
+        {/* Combined string box (initially hidden) - for Scene 4 */}
+        <Rect
+          ref={combinedStringBox}
+          width={800}
+          height={100}
+          radius={10}
+          fill="#1a1a2a"
+          stroke="#5a5a8a"
+          lineWidth={3}
+          y={0}
+          opacity={0}
+          shadowColor="#4444bb"
+          shadowBlur={20}
+          shadowOffset={new Vector2(0, 5)}
+        >
+          <Txt
+            ref={combinedStringText}
+            text={combinedString}
+            fill="#ffffff"
+            fontFamily="monospace"
+            fontSize={28}
+            fontWeight={600}
+            width={750}
+            textWrap={true}
+            textAlign="center"
+          />
+        </Rect>
+        
+        {/* Container for token bubbles */}
+        <Node ref={tokenContainer} opacity={0}>
+          {tokens.map((token, index) => (
+            <Rect
+              ref={tokenRefs[index]}
+              width={token.text.length * 20 + 40}
+              height={80}
+              radius={40}
+              fill={token.color}
+              stroke={"rgba(255, 255, 255, 0.6)"}
+              lineWidth={2}
+              x={-400 + index * 150} // Initial positions, will be animated
+              y={0}
+              shadowColor={token.color}
+              shadowBlur={15}
+              shadowOffset={new Vector2(0, 3)}
+            >
+              <Txt
+                ref={tokenTextRefs[index]}
+                text={token.text}
+                fill={"#ffffff"}
+                fontFamily="monospace"
+                fontSize={22}
+                fontWeight={600}
+                y={-15}
+              />
+              <Txt
+                ref={tokenIdRefs[index]}
+                text={`ID: ${token.id}`}
+                fill={"rgba(255, 255, 255, 0.8)"}
+                fontFamily="monospace"
+                fontSize={16}
+                y={15}
+                opacity={0} // IDs will fade in during animation
+              />
+            </Rect>
+          ))}
+        </Node>
+        
+        {/* Zoomed token for detailed view (initially hidden) */}
+        <Rect
+          ref={zoomedTokenBox}
+          width={300}
+          height={150}
+          radius={20}
+          fill={"#ffd700"} // Will be updated during animation
+          stroke={"rgba(255, 255, 255, 0.8)"}
+          lineWidth={3}
+          y={0}
+          opacity={0}
+          shadowColor={"#ffd700"}
+          shadowBlur={25}
+          shadowOffset={new Vector2(0, 5)}
+        >
+          <Txt
+            ref={zoomedTokenText}
+            text={"France"}
+            fill={"#ffffff"}
+            fontFamily="monospace"
+            fontSize={36}
+            fontWeight={600}
+            y={-30}
+          />
+          <Txt
+            ref={zoomedTokenId}
+            text={"Token ID: 3782"}
+            fill={"#ffffff"}
+            fontFamily="monospace"
+            fontSize={24}
+            y={30}
+          />
+        </Rect>
+        
+        {/* Token ID sequence box (initially hidden) */}
+        <Rect
+          ref={tokenIdSequence}
+          width={700}
+          height={100}
+          radius={15}
+          fill={"#1a1a2a"}
+          stroke={"#5a5a8a"}
+          lineWidth={2}
+          y={200}
+          opacity={0}
+        >
+          <Txt
+            ref={tokenIdSequenceText}
+            text={"[512, 789, 25, 2451, 32, 3782, 28]"}
+            fill={"#ffffff"}
+            fontFamily="monospace"
+            fontSize={32}
+            fontWeight={600}
+          />
+        </Rect>
       </Rect>
     </>,
   );
@@ -755,11 +776,6 @@ export default makeScene2D(function* (view) {
   // Zoom in on the "France" token (index 5)
   const franceTokenIndex = 5;
   const franceToken = tokenRefs[franceTokenIndex];
-  const franceTokenPosition = franceToken().position();
-  
-  // Save the original view position and scale to restore later
-  const originalViewPosition = view.position();
-  const originalViewScale = view.scale();
   
   // Fade out other tokens
   yield* all(
@@ -770,37 +786,28 @@ export default makeScene2D(function* (view) {
     )
   );
   
-  // Move camera to focus on France token
-  yield* view.position(franceTokenPosition, 1, easeInOutCubic);
-  
-  // Scale up view to zoom in
-  yield* view.scale(2, 1, easeInOutCubic);
+  // Scale up the France token (instead of moving the camera)
+  yield* all(
+    franceToken().scale(2, 1, easeInOutCubic),
+    franceToken().position.y(-50, 1, easeInOutCubic)
+  );
   
   yield* waitFor(0.5);
   
-  // Show the zoomed token with ID transformation
-  yield* all(
-    franceToken().opacity(0, 0.6, easeInOutCubic),
-    zoomedTokenBox().opacity(1, 0.8, easeInOutCubic),
-  );
-  
-  // Animate the token ID appearing with emphasis
-  yield* zoomedTokenId().scale(1.2, 0.5, easeOutBack);
-  yield* zoomedTokenId().scale(1, 0.5, easeInOutCubic);
+  // Highlight the token ID
+  yield* tokenIdRefs[franceTokenIndex]().scale(1.5, 0.5, easeOutBack);
+  yield* tokenIdRefs[franceTokenIndex]().scale(1, 0.5, easeInOutCubic);
   
   yield* waitFor(1);
   
-  // Zoom back out to show all tokens - restore to original position and scale
+  // Scale back down and restore all tokens
   yield* all(
-    view.position(originalViewPosition, 1, easeInOutCubic),
-    view.scale(originalViewScale, 1, easeInOutCubic),
-    zoomedTokenBox().opacity(0, 0.6, easeInOutCubic),
-  );
-  
-  // Restore all tokens
-  yield* all(
-    ...tokenRefs.map((tokenRef) => 
-      tokenRef().opacity(1, 0.8, easeInOutCubic)
+    franceToken().scale(1, 1, easeInOutCubic),
+    franceToken().position.y(0, 1, easeInOutCubic),
+    ...tokenRefs.map((tokenRef, i) => 
+      i !== franceTokenIndex ? 
+      tokenRef().opacity(1, 0.8, easeInOutCubic) : 
+      null
     )
   );
   
@@ -812,9 +819,6 @@ export default makeScene2D(function* (view) {
     tokenContainer().scale(0.8, 1, easeInOutCubic),
     tokenIdSequence().opacity(1, 1, easeInOutCubic),
   );
-  
-  // Ensure we end with the view centered
-  yield* view.position(new Vector2(0, 0), 0.5, easeInOutCubic);
   
   yield* waitFor(2);
 });
